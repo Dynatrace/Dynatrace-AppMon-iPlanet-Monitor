@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!-- plugin.xml file written by dynaTrace Client 6.0.0 -->
+<plugin>
+  <extension point="com.dynatrace.diagnostics.pdk.pluginconfig" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor" name="iPlanet Monitor Plugin">
+    <information>
+      <category value="" />
+      <description value="Monitors iPlanet instances by parsing the Oracle stats-xml page" />
+      <supportlevel value="unsupported" />
+      <displayname value="iPlanet Monitor Plugin" />
+    </information>
+    <configuration>
+      <property key="protocol" label="Protocol" type="list" description="Either HTTP or HTTPS" default="http">
+        <list>
+          <item value="http" />
+          <item value="https" />
+        </list>
+      </property>
+      <property key="isCustomPort" label="Custom Port?" type="boolean" description="My property description ..." default="false" />
+      <property key="serverPort" label="Port" type="long" description="(Optional) Port for URL to XML stats page" default="0">
+        <visibility>
+          <rule key="isCustomPort" value="true" />
+        </visibility>
+      </property>
+      <property key="uriPath" label="URI Path" type="string" description="Path to iPlanet XML Stats page" default="/stats-xml" multiline="false" />
+      <property key="ignoreSSLErrors" label="Ignore SSL Certificate Errors" type="boolean" description="My property description ..." default="true" />
+    </configuration>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitor" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor" name="iPlanet Monitor">
+    <plugin configid="com.dynatrace.diagnostics.plugin.IPlanetMonitor" class="com.dynatrace.diagnostics.plugin.IPlanetMonitor" />
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor.keepAliveInfo" name="Keep Alive">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor">
+      <metric defaultrate="purepath" name="Keep Alive Count" unit="number">
+        <property key="node" value="keepalive-bucket" optional="false" />
+        <property key="attributeNumerator" value="countConnections" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Keep Alive Flushes" unit="number">
+        <property key="node" value="keepalive-bucket" optional="false" />
+        <property key="attributeNumerator" value="countFlushes" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Keep Alive Refusals" unit="number">
+        <property key="node" value="keepalive-bucket" optional="false" />
+        <property key="attributeNumerator" value="countRefusals" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor.cacheInfo" name="Cache Info">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor">
+      <metric defaultrate="purepath" name="File Cache Entries" unit="number">
+        <property key="node" value="cache-bucket" optional="false" />
+        <property key="attributeNumerator" value="countEntries" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="File Cache Hit Ratio" unit="percent">
+        <property key="node" value="cache-bucket" optional="false" />
+        <property key="attributeNumerator" value="countHits" optional="false" />
+        <property key="attributeDenominator" value="countMisses" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Accelerator Entries" unit="number">
+        <property key="node" value="cache-bucket" optional="false" />
+        <property key="attributeNumerator" value="countAcceleratorEntries" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Acceleratable Requests" unit="number">
+        <property key="node" value="cache-bucket" optional="false" />
+        <property key="attributeNumerator" value="countAcceleratableRequests" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Acceleratable Responses" unit="number">
+        <property key="node" value="cache-bucket" optional="false" />
+        <property key="attributeNumerator" value="countAcceleratableResponses" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Accelerator Hit Ratio" unit="percent">
+        <property key="node" value="cache-bucket" optional="false" />
+        <property key="attributeNumerator" value="countAcceleratorHits" optional="false" />
+        <property key="attributeDenominator" value="countAcceleratorMisses" optional="false" />
+      </metric>
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor.dnsCacheInfo" name="DNS Cache">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor">
+      <metric defaultrate="purepath" name="DNS Cache Entries" unit="number">
+        <property key="node" value="dns-bucket" optional="false" />
+        <property key="attributeNumerator" value="countCacheEntries" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="DNS Cache Hit Ratio" unit="percent">
+        <property key="node" value="dns-bucket" optional="false" />
+        <property key="attributeNumerator" value="countCacheHits" optional="false" />
+        <property key="attributeDenominator" value="countCacheMisses" optional="false" />
+      </metric>
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor.performanceCounters" name="Performance Counters">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor">
+      <metric defaultrate="purepath" name="Total Requests" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="countRequests" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Current Queue Length" unit="number">
+        <property key="node" value="connection-queue-bucket" optional="false" />
+        <property key="attributeNumerator" value="countQueued" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Active Sessions" unit="number">
+        <property key="node" value="web-app-bucket" optional="false" />
+        <property key="attributeNumerator" value="countActiveSessions" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <!--    <metric defaultrate="purepath" name="Average Request Processing Time" unit="ms">
+        <property key="node" value="mymetricvalue1" optional="false" />
+        <property key="attributeNumerator" value="mymetricvalue2" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric> -->
+      <metric defaultrate="purepath" name="Uptime" unit="s" />
+      <metric defaultrate="purepath" name="Availability" unit="number" description="Returns '1' if available and '0' otherwise" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor.workerThreads" name="Worker Threads">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor">
+      <metric defaultrate="purepath" name="Total Threads" unit="number">
+        <property key="node" value="thread-pool-bucket" optional="false" />
+        <property key="attributeNumerator" value="countThreads" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Idle Threads" unit="number">
+        <property key="node" value="thread-pool-bucket" optional="false" />
+        <property key="attributeNumerator" value="countThreadsIdle" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="Busy Threads" unit="number" />
+    </metricgroup>
+  </extension>
+  <extension point="com.dynatrace.diagnostics.pdk.monitormetricgroup" id="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor.errors" name="Errors">
+    <metricgroup monitorid="com.dynatrace.diagnostics.plugin.IPlanetMonitor.monitor">
+      <metric defaultrate="purepath" name="3xx Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count3xx" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="4xx Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count4xx" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="5xx Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count5xx" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="302 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count302" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="304 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count304" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="400 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count400" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="401 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count401" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="403 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count403" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="404 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count404" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+      <metric defaultrate="purepath" name="503 Response Codes" unit="number">
+        <property key="node" value="/stats/server/virtual-server/request-bucket" optional="false" />
+        <property key="attributeNumerator" value="count503" optional="false" />
+        <property key="attributeDenominator" value="1" optional="false" />
+      </metric>
+    </metricgroup>
+  </extension>
+</plugin>
+

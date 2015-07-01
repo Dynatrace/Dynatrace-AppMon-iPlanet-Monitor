@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Require-Bundle: com.dynatrace.diagnostics.sdk
+Bundle-Vendor: Dynatrace Community
+Bundle-ClassPath: .,lib/com.dynatrace.diagnostics.sdk.jar
+Bundle-Version: 1.1.0
+Bundle-Name: iPlanet Monitor Plugin
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.dynatrace.diagnostics.plugin.IPlanetMonitor;s
+ ingleton:=true
+
