@@ -9,3 +9,5 @@ Easily extensible with Metric Groups, simply include node name and attribute for
 even a "denominator" attribute to calculate a ratio
 
 Due to the construction of this Plugin, it is a good candidate for a prototype generic XML monitor
+
+Discussion and more info: https://community.dynatrace.com/community/display/DL/Oracle+iPlanet+Monitoring+Plugin
